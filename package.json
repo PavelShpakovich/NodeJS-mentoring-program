@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-mentoring-program",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PavelShpakovich/NodeJS-mentoring-program.git"
+  },
+  "author": "Pavel Shpakovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PavelShpakovich/NodeJS-mentoring-program/issues"
+  },
+  "homepage": "https://github.com/PavelShpakovich/NodeJS-mentoring-program#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
