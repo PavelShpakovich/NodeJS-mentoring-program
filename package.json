@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task1-1": "nodemon src/task1-1.ts",
-    "task1-2": "nodemon src/task1-2.ts",
-    "build": "tsc",
-    "start:task1-1": "tsc && nodemon build/task1-1.js",
-    "start:task1-2": "tsc && nodemon build/task1-2.js"
+    "lint": "eslint \"./**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"./**/*.{ts,tsx}\" --fix",
+    "start": "nodemon ./src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -21,13 +19,22 @@
   },
   "homepage": "https://github.com/PavelShpakovich/NodeJS-mentoring-program#readme",
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.31",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
     "node": "^17.7.2",
     "nodemon": "^2.0.16",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "uuid": "^8.3.2"
   },
   "dependencies": {
-    "csvtojson": "^2.0.10"
+    "csvtojson": "^2.0.10",
+    "express": "^4.18.1",
+    "express-joi-validation": "^5.0.1",
+    "joi": "^17.6.0"
   }
 }
