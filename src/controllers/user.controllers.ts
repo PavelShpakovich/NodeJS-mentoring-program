@@ -1,47 +1,73 @@
 import { ValidatedRequest } from 'express-joi-validation';
 import { v4 as uuidv4 } from 'uuid';
-import { getAutoSuggestUsers } from '../helpers';
-import { IUser, QueryParams, RequestSchema } from '../types';
+import { QueryParams, RequestSchema } from '../types';
 import { Request, Response } from 'express';
+import userService from '../services/user.service';
 
-const users: IUser[] = [];
+const genericErrorMessage = 'Error occurred while processing request';
 
-export const createUser = (req: ValidatedRequest<RequestSchema>, res: Response) => {
+export const createUser = async (req: ValidatedRequest<RequestSchema>, res: Response) => {
     const { login, password, age } = req.body;
-    const user = { id: uuidv4(), login, password, age, isDeleted: false };
-    users.push(user);
-    res.json(`User with id ${user.id} has been created`);
+    const user = { id: uuidv4(), login, password, age };
+
+    try {
+        const userRecord = await userService.createUser(user);
+        res.json(`User with id ${userRecord.id} has been created`);
+    } catch (e: any) {
+        res.status(e.status || 500).json({
+            status: 'error',
+            message: e.message || genericErrorMessage,
+        });
+    }
 };
 
-export const getUsers = (req: Request<{}, {}, {}, QueryParams>, res: Response) => {
-    const { loginSubstring, limit } = req.query;
-    const userList = getAutoSuggestUsers({ loginSubstring, limit: limit ? parseInt(limit, 10) : undefined, users });
-    res.json(userList);
+export const getUsers = async (req: Request<{}, {}, {}, QueryParams>, res: Response) => {
+    try {
+        const userList = await userService.getUsers(req.query);
+        res.json(userList);
+    } catch (e: any) {
+        res.status(e.status || 500).json({
+            status: 'error',
+            message: e.message || genericErrorMessage,
+        });
+    }
 };
 
-export const getUser = (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const user = users.find((u) => u.id === id);
-    res.json(user);
+    try {
+        const user = await userService.getUserById(id);
+        res.json(user);
+    } catch (e: any) {
+        res.status(e.status || 500).json({
+            status: 'error',
+            message: e.message || genericErrorMessage,
+        });
+    }
 };
 
-export const deleteUser = (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response) => {
     const id = req.params.id;
-    users.forEach((u) => {
-        if (u.id === id) {
-            u.isDeleted = true;
-        }
-    });
-    res.status(204).send();
+    try {
+        await userService.deleteUser(id);
+        res.json(`User with id: ${id} has been removed`);
+    } catch (e: any) {
+        res.status(e.status || 500).json({
+            status: 'error',
+            message: e.message || genericErrorMessage,
+        });
+    }
 };
 
 export const updateUser = (req: ValidatedRequest<RequestSchema>, res: Response) => {
     const id = req.params.id;
-    const { login, password, age } = req.body;
-    users.forEach((u) => {
-        if (u.id === id) {
-            u = { ...u, login, password, age };
-        }
-    });
-    res.status(204).send();
+    try {
+        userService.updateUser({ ...req.body, id });
+        res.json(`User with id: ${id} has been updated`);
+    } catch (e: any) {
+        res.status(e.status || 500).json({
+            status: 'error',
+            message: e.message || genericErrorMessage,
+        });
+    }
 };
