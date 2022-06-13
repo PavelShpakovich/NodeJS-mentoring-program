@@ -1,9 +1,7 @@
 # Node.js Global Mentoring Program
 ## About the project
---------------------
 RESTful API web server
 ## How To Run
--------------
 `npm run start`
 ## Endpoints
 * /users/ :
