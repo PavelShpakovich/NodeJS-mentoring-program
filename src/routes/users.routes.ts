@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 import { createValidator } from 'express-joi-validation';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controllers/user.controllers';
-import { checkUserByIdMiddleware } from '../middleware/chekUserById.middleware';
+import { checkUserByIdMiddleware } from '../middleware/checkById.middleware';
 import { Router } from 'express';
 
 const bodySchema = Joi.object({

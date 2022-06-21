@@ -19,3 +19,22 @@ RESTful API web server
   * Method: PUT
     * Description: Change a user data in the database
     * Body: login, password, age
+
+* /groups/ :
+  * Method: POST
+    * Description: Create a new group.
+    * Body: name, permissions
+  * Method: GET
+    * Description: Return all groups data
+* /groups/:id
+  * Method: GET
+    * Description: Return a group data
+  * Method: DELETE
+    * Description: Delete a group data from the database
+  * Method: PUT
+    * Description: Change a group data in the database
+    * Body: name, permissions
+* /addUsersToGroup/ :
+  * Method: POST
+    * Description: Add users to a certain group.
+    * Body: groupId, userIds

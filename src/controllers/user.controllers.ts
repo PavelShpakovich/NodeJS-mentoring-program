@@ -1,12 +1,12 @@
 import { ValidatedRequest } from 'express-joi-validation';
 import { v4 as uuidv4 } from 'uuid';
-import { QueryParams, RequestSchema } from '../types';
+import { QueryParams, RequestUserSchema } from '../types';
 import { Request, Response } from 'express';
 import userService from '../services/user.service';
 
 const genericErrorMessage = 'Error occurred while processing request';
 
-export const createUser = async (req: ValidatedRequest<RequestSchema>, res: Response) => {
+export const createUser = async (req: ValidatedRequest<RequestUserSchema>, res: Response) => {
   const { login, password, age } = req.body;
   const user = { id: uuidv4(), login, password, age };
 
@@ -59,7 +59,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = (req: ValidatedRequest<RequestSchema>, res: Response) => {
+export const updateUser = (req: ValidatedRequest<RequestUserSchema>, res: Response) => {
   const id = req.params.id;
   try {
     userService.updateUser({ ...req.body, id });
