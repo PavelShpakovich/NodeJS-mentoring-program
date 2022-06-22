@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import groupService from '../services/group.service';
 import userService from '../services/user.service';
 
 export const checkUserByIdMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -8,4 +9,13 @@ export const checkUserByIdMiddleware = async (req: Request, res: Response, next:
     return next();
   }
   res.status(404).json(`User with id ${id} is not found`);
+};
+
+export const checkGroupByIdMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params?.id;
+  const group = await groupService.getGroupById(id);
+  if (group) {
+    return next();
+  }
+  res.status(404).json(`Group with id ${id} is not found`);
 };

@@ -1,11 +1,16 @@
 import { Op } from 'sequelize';
 import { ModelStatic } from 'sequelize/types';
-import { UserInstance, UserModel } from '../data-access/models/user.model';
+import { UserModel } from '../data-access/models';
+import { UserInstance } from '../data-access/models/user.model';
 import { IUser, QueryParams } from '../types';
 
 interface IUserService {
-    userModel: ModelStatic<UserInstance>;
-    createUser(user: IUser): Promise<UserInstance>;
+  userModel: ModelStatic<UserInstance>;
+  createUser(user: IUser): Promise<UserInstance>;
+  getUsers(payload: QueryParams): Promise<UserInstance[]>;
+  getUserById(id: string): Promise<UserInstance | null>;
+  updateUser(user: IUser): Promise<void>;
+  deleteUser(id: string): Promise<void>;
 }
 
 class UserService implements IUserService {
