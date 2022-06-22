@@ -13,8 +13,8 @@ export const checkUserByIdMiddleware = async (req: Request, res: Response, next:
 
 export const checkGroupByIdMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const id = req.params?.id;
-  const user = await groupService.getGroupById(id);
-  if (user) {
+  const group = await groupService.getGroupById(id);
+  if (group) {
     return next();
   }
   res.status(404).json(`Group with id ${id} is not found`);
