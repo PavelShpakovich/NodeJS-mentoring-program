@@ -6,6 +6,9 @@ import { UserModel } from './data-access/models';
 import 'dotenv/config';
 import { GroupModel } from './data-access/models';
 import { UserGroupModel } from './data-access/models';
+import loggerMiddleware from './middleware/logger.middleware';
+import errorHandlerMiddleware from './middleware/errorHandler.middleware';
+import { logger } from './utils/logger';
 
 const { PORT } = process.env;
 
@@ -14,14 +17,16 @@ const port = PORT || 3000;
 const app = express();
 
 app.use(json());
+app.use(loggerMiddleware);
 app.use(userRouter);
 app.use(groupRouter);
+app.use(errorHandlerMiddleware);
 
 const initApp = async () => {
-  console.log('Testing the database connection..');
+  logger.info('Testing the database connection..');
   try {
     await db.authenticate();
-    console.log('Connection has been established successfully.');
+    logger.info('Connection has been established successfully.');
 
     await UserModel.sync({
       alter: true,
@@ -36,10 +41,10 @@ const initApp = async () => {
     });
 
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      logger.info(`Server is running on port ${port}`);
     });
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:', error);
   }
 };
 

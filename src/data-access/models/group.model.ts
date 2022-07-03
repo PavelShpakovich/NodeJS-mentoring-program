@@ -17,10 +17,22 @@ export const GroupModel = db.define<GroupInstance>(
       allowNull: false,
     },
     permissions: {
-      type: DataTypes.ARRAY(
-        DataTypes.ENUM(Permission.DELETE, Permission.READ, Permission.SHARE, Permission.UPLOAD_FILES, Permission.WRITE)
-      ),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
+      validate: {
+        customValidator: (array: Permission[]) => {
+          const enums: Permission[] = [
+            Permission.DELETE,
+            Permission.READ,
+            Permission.SHARE,
+            Permission.UPLOAD_FILES,
+            Permission.WRITE,
+          ];
+          if (!array.every((item) => enums.includes(item))) {
+            throw new Error('Not a valid option');
+          }
+        },
+      },
     },
   },
   {
