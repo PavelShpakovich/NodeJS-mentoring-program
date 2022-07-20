@@ -5,8 +5,8 @@ import { logger } from '../utils/logger';
 interface IDbErrorLogger {
   message: string;
   method: string;
-  payload: Request['body'];
-  query: Request['query'] | Request<{}, {}, {}, QueryParams>['query'];
+  payload?: Request['body'];
+  query?: Request['query'] | Request<{}, {}, {}, QueryParams>['query'];
 }
 
 export const dbErrorLogger = ({ message, method, payload, query }: IDbErrorLogger): void => {
