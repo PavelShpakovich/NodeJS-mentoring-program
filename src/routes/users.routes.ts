@@ -3,6 +3,7 @@ import { createValidator } from 'express-joi-validation';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controllers/user.controllers';
 import { checkUserByIdMiddleware } from '../middleware/checkById.middleware';
 import { Router } from 'express';
+import checkToken from '../middleware/checkToken.middleware';
 
 const bodySchema = Joi.object({
   login: Joi.string().required(),
@@ -20,13 +21,13 @@ const paramsValidator = validator.params(paramsSchema);
 
 const router = Router();
 
-router.route('/users').post(bodyValidator, createUser).get(getUsers);
+router.route('/users').all(checkToken).post(bodyValidator, createUser).get(getUsers);
 
 router
   .route('/users/:id')
   .all(paramsValidator, checkUserByIdMiddleware)
   .get(getUser)
-  .delete(deleteUser)
-  .put(bodyValidator, updateUser);
+  .delete(checkToken, deleteUser)
+  .put(bodyValidator, checkToken, updateUser);
 
 export default router;
