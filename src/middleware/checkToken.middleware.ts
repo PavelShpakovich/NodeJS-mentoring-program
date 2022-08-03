@@ -10,13 +10,12 @@ const checkToken = (req: Request, res: Response, next: NextFunction) => {
   if (!token) {
     return res.status(401).json({ success: false, message: 'No token provided' });
   }
-  return jwt.verify(token, secret as string, (err, _) => {
-    if (err) {
-      return res.status(403).json({ success: false, message: 'Invalid token provided' });
-    }
-
-    return next();
-  });
+  try {
+    const decoded = jwt.verify(token, secret as string);
+    return decoded && next();
+  } catch {
+    return res.status(403).json({ success: false, message: 'Invalid token provided' });
+  }
 };
 
 export default checkToken;
