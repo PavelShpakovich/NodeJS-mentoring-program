@@ -12,7 +12,7 @@ const bodySchema = Joi.object({
 });
 
 const paramsSchema = Joi.object({
-  id: Joi.string().uuid().required(),
+  id: Joi.string().required(),
 });
 
 const validator = createValidator();

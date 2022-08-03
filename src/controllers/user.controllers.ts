@@ -61,7 +61,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
   const id = req.params.id;
   try {
     await userService.deleteUser(id);
-    res.json(`User with id: ${id} has been removed`);
+    res.json(`User with id ${id} has been removed`);
   } catch (e: any) {
     if (e.name !== DB_ERROR_NAME) return next(e);
 
@@ -78,7 +78,7 @@ export const updateUser = async (req: ValidatedRequest<RequestUserSchema>, res: 
   const id = req.params.id;
   try {
     await userService.updateUser({ ...req.body, id });
-    res.json(`User with id: ${id} has been updated`);
+    res.json(`User with id ${id} has been updated`);
   } catch (e: any) {
     if (e.name !== DB_ERROR_NAME) return next(e);
 

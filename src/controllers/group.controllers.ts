@@ -79,7 +79,7 @@ export const deleteGroup = async (req: Request, res: Response, next: NextFunctio
   const id = req.params.id;
   try {
     await groupService.deleteGroup(id);
-    res.json(`Group with id: ${id} has been removed`);
+    res.json(`Group with id ${id} has been removed`);
   } catch (e: any) {
     if (e.name !== DB_ERROR_NAME) return next(e);
 
@@ -96,7 +96,7 @@ export const updateGroup = async (req: ValidatedRequest<RequestGroupSchema>, res
   const id = req.params.id;
   try {
     await groupService.updateGroup({ ...req.body, id });
-    res.json(`Group with id: ${id} has been updated`);
+    res.json(`Group with id ${id} has been updated`);
   } catch (e: any) {
     if (e.name !== DB_ERROR_NAME) return next(e);
 
